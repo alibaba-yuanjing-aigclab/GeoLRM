@@ -1,0 +1,68 @@
+model:
+  base_learning_rate: 2.0e-04
+  target: src.serializer_wrapper.GeoSRL
+  params:
+    input_size: 448
+    serializer_config:
+      target: src.serializers.geo_srl.TransformerSerializer
+      params:
+        use_bf16: true
+        encoder_freeze: false
+        encoder_model_name: facebook/dinov2-base
+        encoder_feat_dim: 384
+        transformer_dim: 384
+        transformer_layers: 6
+        transformer_heads: 16
+        grid_size: 128
+        token_res: 8
+        num_deform_points: 8
+
+dataset:
+  target: src.datasets.gobjaverse.DataModuleFromConfig
+  params:
+    batch_size: 2
+    num_workers: 8
+    train:
+      target: src.datasets.gobjaverse_occ.GObjaverseDatasetOcc
+      params:
+        json_path: data/objaverse/gobjaverse_280k.json
+        caption_path: data/objaverse/text_captions_cap3d.json
+        data_root: data/objaverse/gobjaverse_280k
+        occ_data_root: data/objaverse/gobjaverse_280k_occ
+        size: 512
+        degradation: cv_bilinear
+        orth_views: 24
+        rand_views: 40
+        rand_target: true
+    validation:
+      target: src.datasets.gobjaverse_occ.GObjaverseDatasetOcc
+      params:
+        json_path: data/objaverse/gobjaverse_280k.json
+        caption_path: data/objaverse/text_captions_cap3d.json
+        data_root: data/objaverse/gobjaverse_280k
+        occ_data_root: data/objaverse/gobjaverse_280k_occ
+        size: 512
+        degradation: cv_bilinear
+        orth_views: 24
+        rand_views: 40
+        rand_target: true
+
+lightning:
+  modelcheckpoint:
+    params:
+      every_n_train_steps: 2000
+      save_top_k: -1
+      save_last: true
+  callbacks: {}
+  trainer:
+    num_sanity_val_steps: 0
+    accumulate_grad_batches: 1
+    gradient_clip_val: 10.0
+    max_epochs: 30
+    val_check_interval: 1_000_000
+    benchmark: true
+    logger:
+      target: pytorch_lightning.loggers.WandbLogger
+      params:
+        save_dir: logs/srl-bf16
+        name: srl-bf16
