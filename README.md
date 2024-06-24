@@ -1,6 +1,6 @@
 # GeoLRM
 
-**[Project Page](https://alibaba-yuanjing-aigclab.github.io/GeoLRM) | [arXiv](TODO) | [Paper](https://linshan-bin.github.io/GeoLRM/static/GeoLRM_arXiv.pdf) | [Checkpoint](https://huggingface.co/LinShan/GeoLRM/tree/main)**
+**[Project Page](https://alibaba-yuanjing-aigclab.github.io/GeoLRM) | [arXiv](https://arxiv.org/abs/2406.15333) | [Paper](https://linshan-bin.github.io/GeoLRM/static/GeoLRM_arXiv.pdf) | [Checkpoint](https://huggingface.co/LinShan/GeoLRM/tree/main)**
 
 > GeoLRM: Geometry-Aware Large Reconstruction Model for High-Quality 3D Gaussian Generation
 >
@@ -116,5 +116,10 @@ Many thanks to these excellent projects:
 If this work is helpful for your research, please consider citing the following BibTeX entry.
 
 ```bibtex
-
+@article{zhang2024geolrm,
+  title={GeoLRM: Geometry-Aware Large Reconstruction Model for High-Quality 3D Gaussian Generation},
+  author={Chubin Zhang and Hongliang Song and Yi Wei and Yu Chen and Jiwen Lu and Yansong Tang},
+  journal={arXiv preprint arXiv:2406.15333},
+  year={2024}
+}
 ```
