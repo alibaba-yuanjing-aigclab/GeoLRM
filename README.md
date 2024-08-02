@@ -72,12 +72,12 @@ Clone this repo and install the dependencies:
 
 ### Download checkpoints
 
+Download the GeoLRM checkpoint:
 ```bash
-# Download the GeoLRM checkpoint
 wget https://huggingface.co/LinShan/GeoLRM/resolve/main/geolrm.ckpt -P ckpts
-# Download the SV3D checkpoint
-wget https://huggingface.co/LinShan/GeoLRM/resolve/main/sv3d_p.safetensors -P ckpts
 ```
+
+Download the `sv3d_p.safetensors` from [Huggingface](https://huggingface.co/stabilityai/sv3d) manually and place it under `ckpts`.
 
 ### Gradio App
 
