@@ -416,7 +416,7 @@ with gr.Blocks() as demo:
                     )
                     sample_seed = gr.Number(value=42, label="Seed Value", precision=0)
                     num_gaussians = gr.Slider(
-                        label="Number of Gaussians",
+                        label="Number of Tokens (32 3DGS per token)",
                         minimum=4096,
                         maximum=16384,
                         value=8192,
