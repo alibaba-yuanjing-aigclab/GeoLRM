@@ -1,4 +1,4 @@
-# GeoLRM
+# [NeurIPS 2024] GeoLRM
 
 **[Project Page](https://alibaba-yuanjing-aigclab.github.io/GeoLRM) | [arXiv](https://arxiv.org/abs/2406.15333) | [Paper](https://linshan-bin.github.io/GeoLRM/static/GeoLRM_arXiv.pdf) | [Checkpoint](https://huggingface.co/LinShan/GeoLRM/tree/main)**
 
@@ -9,6 +9,7 @@
 **Updates:**
 
 - `🔔 2024/6/21` Code release.
+- `🎉 2024/9/29` GeoLRM has been accepted at NeurIPS 2024!
 
 **TODO:**
 
