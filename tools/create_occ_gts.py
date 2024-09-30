@@ -137,12 +137,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--start', type=int, default=0)
     parser.add_argument('--end', type=int, default=len(objaverse_key))
-    parser.add_argument('--num_workers', type=int, default=8)
     args = parser.parse_args()
     start, end = args.start, args.end
     
     os.makedirs(occ_root, exist_ok=True)
-    # process_map(create_occ_gts, range(start, end), max_workers=args.num_workers, chunksize=1)
     for item_idx in tqdm(range(start, end)):
         create_occ_gts(item_idx)
     print('Done.')

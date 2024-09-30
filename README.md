@@ -10,12 +10,7 @@
 
 - `🔔 2024/6/21` Code release.
 - `🎉 2024/9/29` GeoLRM has been accepted at NeurIPS 2024!
-
-**TODO:**
-
-- [ ] Release training code.
-- [ ] Add huggineface demos.
-- [ ] Add mesh reconstruction support.
+- `🔔 2024/9/29` Training code release.
 
 ## 🕹 Demos
 
@@ -102,9 +97,52 @@ Tips for better results:
 
 ### Training
 
-```bash
-python train.py --base configs/geolrm-train.yaml --gpus 0 --num_nodes 1
-```
+#### Data Preparation
+
+1. Download the GObjaverse dataset (gobjaverse_280k split) from [here](https://github.com/modelscope/richdreamer/tree/main/dataset/gobjaverse). For now, we only use `xxxxx.png`, `xxxxx.json`, and `xxxxx_nd.exr` files. You can modify the `download_gobjaverse_280k.py` to exclude other files to save disk space. This results in a dataset with a size of around **2.6 TB**. The dataset should be organized as follows:
+
+    ```
+    data/
+    ├── objaverse/
+    │   ├── gobjaverse_280k.json
+    │   ├── text_captions_cap3d.json
+    │   ├── gobjaverse_280k/
+    │   │   ├── 0/
+    │   │   │   ├── 10010/
+    │   │   │   │   ├── 00000/
+    │   │   │   │   │   ├── 00000.png
+    │   │   │   │   │   ├── 00000.json
+    │   │   │   │   │   ├── 00000_nd.exr
+    ...
+    ```
+2. Generate the occupancy ground truth:
+
+    ```bash
+    python tools/create_occ_gts.py
+    ```
+
+    We recommend manually parallelizing this process to speed up the generation of occupancy ground truth:
+
+    ```bash
+    CUDA_VISIBLE_DEVICES=0 python tools/create_occ_gts.py --start 0 --end 140000 &
+    CUDA_VISIBLE_DEVICES=1 python tools/create_occ_gts.py --start 140000
+    ```
+
+    The occupancy ground truth generation process will take around 6 hours on 8 GPUs.
+3. Train the proposal network:
+
+    ```bash
+    python train.py --base configs/srl-bf16.yaml --num_nodes 1 --gpus 0,1,2,3,4,5,6,7
+    ```
+
+    The training process will take around 1 day on 8 A100 GPUs.
+4. Train the reconstruction network:
+
+    ```bash
+    python train.py --base configs/geolrm-train.yaml --num_nodes 1 --gpus 0,1,2,3,4,5,6,7
+    ```
+
+    We provide a basic script to train with multiple nodes in `scripts`. The training process will take around 2 days on 32 A100 GPUs.
 
 ## 🙏 Acknowledgement
 

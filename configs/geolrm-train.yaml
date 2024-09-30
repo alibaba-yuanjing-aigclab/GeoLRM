@@ -1,0 +1,104 @@
+model:
+  base_learning_rate: 1.0e-04
+  target: src.geolrm_wrapper.GeoLRM
+  params:
+    input_size: 448
+    render_size: 448
+    use_checkpoint: true
+    rand_views: True
+    lambda_depth_tv: 0.05
+    lambda_lpips: 2.0
+    lambda_mse: 1.0
+    max_steps: 100_000
+    warmup_steps: 12_000
+    serializer_config:
+      target: src.serializers.geo_srl.TransformerSerializer
+      params:
+        use_bf16: false
+        encoder_freeze: false
+        encoder_model_name: facebook/dinov2-base
+        encoder_feat_dim: 384
+        transformer_dim: 384
+        transformer_layers: 6
+        transformer_heads: 16
+        grid_size: 128
+        token_res: 8
+        num_deform_points: 8
+        max_seq_len: 4096
+        ckpt_path: ckpts/srl-bf16.ckpt
+    lrm_generator_config:
+      target: src.models.geolrm.GeoLRM
+      params:
+        use_bf16: false
+        encoder_feat_dim: 384
+        encoder_freeze: false
+        encoder_model_name: facebook/dinov2-base
+        transformer_dim: 768
+        transformer_layers: 16
+        transformer_heads: 16
+        grid_size: 128
+        num_deform_points: 8
+        gs_per_token: 32
+        use_sh: false
+        dropout: 0.0
+        offset_max: 0.2
+        scale_max: 0.02
+
+dataset:
+  target: src.datasets.gobjaverse.DataModuleFromConfig
+  params:
+    batch_size: 1
+    num_workers: 8
+    train:
+      target: src.datasets.gobjaverse.GObjaverseDataset
+      params:
+        json_path: data/objaverse/gobjaverse_280k.json
+        caption_path: data/objaverse/text_captions_cap3d.json
+        data_root: data/objaverse/gobjaverse_280k
+        size: 512
+        degradation: cv_bilinear
+        orth_views: 24
+        rand_views: 40
+        rand_target: true
+    validation:
+      target: src.datasets.gobjaverse.GObjaverseDataset
+      params:
+        json_path: data/objaverse/gobjaverse_280k.json
+        caption_path: data/objaverse/text_captions_cap3d.json
+        data_root: data/objaverse/gobjaverse_280k
+        size: 512
+        degradation: cv_bilinear
+        orth_views: 24
+        rand_views: 40
+        rand_target: true
+    test:
+      target: src.datasets.gobjaverse.GObjaverseDataset
+      params:
+        json_path: data/objaverse/gobjaverse_280k.json
+        caption_path: data/objaverse/text_captions_cap3d.json
+        data_root: data/objaverse/gobjaverse_280k
+        size: 512
+        degradation: cv_bilinear
+        orth_views: 24
+        rand_views: 40
+        rand_target: true
+
+lightning:
+  modelcheckpoint:
+    params:
+      every_n_train_steps: 1000
+      save_top_k: -1
+      save_last: true
+  callbacks: {}
+  trainer:
+    num_sanity_val_steps: 0
+    accumulate_grad_batches: 8
+    gradient_clip_val: 4.0
+    max_epochs: 30
+    val_check_interval: 1000_000
+    benchmark: true
+    logger:
+      target: pytorch_lightning.loggers.TensorBoardLogger
+      params:
+        save_dir: logs/geolrm-train
+        name: geolrm-train
