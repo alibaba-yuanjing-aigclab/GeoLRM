@@ -9,7 +9,7 @@
 **Updates:**
 
 - `🔔 2024/6/21` Code release.
-- `🎉 2024/9/29` GeoLRM has been accepted at NeurIPS 2024!
+- `🎉 2024/9/29` GeoLRM has been accepted at **NeurIPS 2024**!
 - `🔔 2024/9/30` Training code release.
 
 ## 🕹 Demos
@@ -97,7 +97,7 @@ Tips for better results:
 
 ## 📑 Training
 
-1. Download the GObjaverse dataset (gobjaverse_280k split) from [here](https://github.com/modelscope/richdreamer/tree/main/dataset/gobjaverse). For now, we only use `xxxxx.png`, `xxxxx.json`, and `xxxxx_nd.exr` files. You can modify the `download_gobjaverse_280k.py` to exclude other files to save disk space. This results in a dataset with a size of around **2.6 TB**. The dataset should be organized as follows:
+1. **Download the GObjaverse dataset** (gobjaverse_280k split) from [here](https://github.com/modelscope/richdreamer/tree/main/dataset/gobjaverse). For now, we only use `xxxxx.png`, `xxxxx.json`, and `xxxxx_nd.exr` files. You can modify the `download_gobjaverse_280k.py` to exclude other files to save disk space. This results in a dataset with a size of around **2.6 TB**. The dataset should be organized as follows:
 
     ```
     data/
@@ -113,7 +113,7 @@ Tips for better results:
     │   │   │   │   │   ├── 00000_nd.exr
     ...
     ```
-2. Generate the occupancy ground truth:
+2. **Generate the occupancy ground truth**:
 
     ```bash
     python tools/create_occ_gts.py
@@ -127,14 +127,14 @@ Tips for better results:
     ```
 
     The occupancy ground truth generation process will take around 6 hours on 8 GPUs.
-3. Train the proposal network:
+3. **Train the proposal network**:
 
     ```bash
     python train.py --base configs/srl-bf16.yaml --num_nodes 1 --gpus 0,1,2,3,4,5,6,7
     ```
 
     The training process will take around 1 day on 8 A100 GPUs.
-4. Train the reconstruction network:
+4. **Train the reconstruction network**:
 
     ```bash
     python train.py --base configs/geolrm-train.yaml --num_nodes 1 --gpus 0,1,2,3,4,5,6,7
