@@ -97,8 +97,6 @@ Tips for better results:
 
 ## 📑 Training
 
-### Data Preparation
-
 1. Download the GObjaverse dataset (gobjaverse_280k split) from [here](https://github.com/modelscope/richdreamer/tree/main/dataset/gobjaverse). For now, we only use `xxxxx.png`, `xxxxx.json`, and `xxxxx_nd.exr` files. You can modify the `download_gobjaverse_280k.py` to exclude other files to save disk space. This results in a dataset with a size of around **2.6 TB**. The dataset should be organized as follows:
 
     ```
