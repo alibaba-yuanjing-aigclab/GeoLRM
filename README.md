@@ -10,7 +10,7 @@
 
 - `🔔 2024/6/21` Code release.
 - `🎉 2024/9/29` GeoLRM has been accepted at NeurIPS 2024!
-- `🔔 2024/9/29` Training code release.
+- `🔔 2024/9/30` Training code release.
 
 ## 🕹 Demos
 
