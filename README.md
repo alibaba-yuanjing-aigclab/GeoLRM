@@ -86,7 +86,7 @@ Then open the browser and visit `http://127.0.0.1:42339/`.
 ### Inference
 
 ```bash
-python run_georm_sv3d.py configs/geolrm.yaml examples --output_path outputs
+python run_geolrm_sv3d.py configs/geolrm.yaml examples --output_path outputs
 ```
 
 Tips for better results:
